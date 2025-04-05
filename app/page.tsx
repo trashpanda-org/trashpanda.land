@@ -13,10 +13,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white overflow-hidden">
-      <main className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col min-h-screen bg-black text-white">
+      <main className="flex flex-col md:flex-row min-h-screen">
         {/* Left side - Image (only visible on md and up) */}
-        <div className="hidden md:block md:w-1/2 h-full relative overflow-hidden">
+        <div className="hidden md:block md:w-1/2 min-h-screen relative">
           <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-transparent z-10 opacity-60"></div>
           <Image
             src="/images/raccoon-full.png"
@@ -29,7 +29,7 @@ export default function Home() {
         </div>
 
         {/* Mobile image (only visible below md) */}
-        <div className="relative w-full h-1/3 md:hidden overflow-hidden">
+        <div className="relative w-full h-48 md:hidden overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-transparent z-10 opacity-60"></div>
           <Image
             src="/images/raccoon-full.png"
@@ -42,7 +42,7 @@ export default function Home() {
         </div>
 
         {/* Right side - Content */}
-        <div className="w-full md:w-1/2 h-2/3 md:h-full flex flex-col justify-center p-8 pt-16 md:p-16 relative">
+        <div className="w-full md:w-1/2 flex-1 md:h-full flex flex-col justify-center p-8 pt-12 md:p-16 relative">
           <div className="absolute top-8 right-8">
             <div className="group relative">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-red-800 to-red-900 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
@@ -65,19 +65,19 @@ export default function Home() {
             </h1>
 
             <p
-              className={`text-lg md:text-xl text-gray-400 max-w-md mb-12 ${mounted ? "animate-in fade-in slide-in-from-left-4 duration-1000 delay-300" : "opacity-0"}`}
+              className={`text-lg md:text-xl text-gray-400 mb-12 ${mounted ? "animate-in fade-in slide-in-from-left-4 duration-1000 delay-300" : "opacity-0"}`}
             >
               committing crimes against large language models since 2025
             </p>
           </div>
 
           <div
-            className={`space-y-4 ${mounted ? "animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500" : "opacity-0"}`}
+            className={`flex flex-col space-y-4 ${mounted ? "animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500" : "opacity-0"}`}
           >
             <Link
               href="https://huggingface.co/trashpanda-org"
               target="_blank"
-              className="group flex items-center text-xl text-red-700 hover:text-red-500 transition-colors"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
             >
               <span className="mr-2">Huggingface</span>
               <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -86,7 +86,7 @@ export default function Home() {
             <Link
               href="https://github.com/trashpanda-org"
               target="_blank"
-              className="group flex items-center text-xl text-red-700 hover:text-red-500 transition-colors"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
             >
               <span className="mr-2">GitHub</span>
               <Github className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -138,7 +138,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-auto pt-12 text-sm text-gray-600">© {new Date().getFullYear()} trashpanda-org</div>
+          <div className="mt-auto pt-8 pb-4 text-sm text-gray-600">© {new Date().getFullYear()} trashpanda-org</div>
         </div>
       </main>
     </div>
