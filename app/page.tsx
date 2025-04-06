@@ -92,9 +92,27 @@ export default function Home() {
               <Github className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
 
-            <div className="text-xl text-gray-500">
+            <Link
+              href="https://models.trashpanda.land"
+              target="_blank"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
+            >
+              <span className="mr-2">Active Model Hosts</span>
+              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
+            <Link
+              href="https://sucker.trashpanda.land"
+              target="_blank"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
+            >
+              <span className="mr-2">Sucker</span>
+              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
+            {/* <div className="text-xl text-gray-500">
               Blog <span className="text-gray-700">— Coming Soon</span>
-            </div>
+            </div> */}
           </div>
 
           {/* Team Members */}
