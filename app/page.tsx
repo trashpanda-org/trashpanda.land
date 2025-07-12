@@ -110,6 +110,15 @@ export default function Home() {
               <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
 
+            <Link
+              href="https://waiki.trashpanda.land"
+              target="_blank"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
+            >
+              <span className="mr-2">wAIki</span>
+              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
             {/* <div className="text-xl text-gray-500">
               Blog <span className="text-gray-700">— Coming Soon</span>
             </div> */}
@@ -152,6 +161,19 @@ export default function Home() {
                   </Link>
                 </div>
                 <div className="text-xs text-gray-500">@hasnonname</div>
+              </div>
+              <div className="space-y-1 group">
+                <div className="flex items-center">
+                  <span className="text-lg font-medium">Myscell</span>
+                  <Link
+                    href="https://huggingface.co/myscellus"
+                    target="_blank"
+                    className="ml-2 text-gray-400 hover:text-red-700 transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4 transform group-hover:rotate-12 transition-transform" />
+                  </Link>
+                </div>
+                <div className="text-xs text-gray-500">@myscellus</div>
               </div>
             </div>
           </div>
