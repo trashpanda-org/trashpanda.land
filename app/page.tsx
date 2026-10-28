@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, Lock } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export default function Home() {
@@ -108,6 +108,16 @@ export default function Home() {
             >
               <span className="mr-2">Sucker</span>
               <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
+            <Link
+              href="https://avaritia.trashpanda.land"
+              target="_blank"
+              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
+            >
+              <span className="mr-2">avaritia</span>
+              <Lock className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span className="ml-3 text-sm text-gray-400">members only</span>
             </Link>
           </div>
 
