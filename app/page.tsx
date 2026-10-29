@@ -1,5 +1,4 @@
 import type React from "react"
-import Booking from "./booking"
 import "./rapsheet.css"
 
 // The clerk's red pencil: three hand-drawn strokes, drawn under a host or an associate on hover and keyboard focus.
@@ -42,6 +41,7 @@ export default function Home() {
     <main className="page">
       <section className="mug" aria-label="Booking photo">
         <div className="plate">
+          {/* decoded with the page, so the photo is in the first paint rather than popping in a frame later */}
           <img
             className="shot"
             src="/assets/mugshot-960.webp"
@@ -50,11 +50,9 @@ export default function Home() {
             width={1200}
             height={1200}
             fetchPriority="high"
-            decoding="async"
+            decoding="sync"
             alt="The trashpanda raccoon, red-furred and red-eyed, glaring into the camera from the rim of a bin"
           />
-          <img className="shot bleach" src="/assets/mugshot-bleach-640.webp" width={640} height={640} alt="" decoding="async" />
-          <div className="flash" aria-hidden="true"></div>
           <div className="chart" aria-hidden="true">
             {inches.map((k) => (
               <i key={k} className={ruleClass(k)} style={{ "--k": k } as React.CSSProperties}>
@@ -100,7 +98,7 @@ export default function Home() {
                       <Pen n={1} />
                     </span>
                   </a>
-                  <span className="stamp">sealed</span><span className="note">members only.</span>
+                  <span className="stamp">sealed</span>
                 </li>
               </ul>
             </div>
@@ -110,17 +108,18 @@ export default function Home() {
                 {associates.map((m, i) => (
                   <li key={m.href}>
                     <a className="an" href={m.href} {...ext}><span className="nm">{m.name}<Pen n={i % 3} /></span></a>
-                    {m.name === "severian" && <a className="site" href="https://severian.dev" {...ext}>severian.dev</a>}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
         </section>
-        {/* one text node, so the font swap does not shift the name past the year */}
-        <footer className="foot">{`© ${new Date().getFullYear()} trashpanda-org`}</footer>
+        <footer className="foot">
+          {/* one text node, so the font swap does not shift the name past the year */}
+          <span>{`© ${new Date().getFullYear()} trashpanda-org`}</span>
+          <a href="https://severian.dev" {...ext}>severian.dev</a>
+        </footer>
       </div>
-      <Booking />
     </main>
   )
 }

@@ -48,9 +48,6 @@ export const viewport: Viewport = {
 };
 
 // The mugshot's preload (imagesrcset, imagesizes, fetchpriority high) is emitted by React from the page's <img>.
-// Before first paint: html.js, and html.booking unless the visitor asks for reduced motion (the booking motion only runs under it).
-const prePaint =
-  "(()=>{const h=document.documentElement;h.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('booking')})()";
 
 export default function RootLayout({
   children,
@@ -58,12 +55,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var.woff2" crossOrigin="" />
         <link rel="preload" as="font" type="font/woff2" href="/fonts/courier-prime-400.woff2" crossOrigin="" />
         <link rel="preload" as="font" type="font/woff2" href="/fonts/courier-prime-700.woff2" crossOrigin="" />
-        <script dangerouslySetInnerHTML={{ __html: prePaint }} />
       </head>
       <body>{children}</body>
     </html>
