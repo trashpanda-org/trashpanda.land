@@ -1,187 +1,126 @@
-"use client"
+import type React from "react"
+import Booking from "./booking"
+import "./rapsheet.css"
 
-import Image from "next/image"
-import Link from "next/link"
-import { ExternalLink, Github } from "lucide-react"
-import { useEffect, useState } from "react"
+// The clerk's red pencil: three hand-drawn strokes, drawn under a host or an associate on hover and keyboard focus.
+const strokes = [
+  "M1 6.5C22 4.6 47 7.4 72 5.2 82 4.4 92 5.6 99 4.4",
+  "M2 5.2C25 6.8 51 3.9 76 5.6 86 6.2 93 4.8 98 5.4",
+  "M1 5.8C28 4.2 55 7 80 5 88 4.4 94 5.2 99 6",
+]
 
-export default function Home() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
+function Pen({ n }: { n: number }) {
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
-      <main className="flex flex-col md:flex-row min-h-screen">
-        {/* Left side - Image (only visible on md and up) */}
-        <div className="hidden md:block md:w-1/2 min-h-screen relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-transparent z-10 opacity-60"></div>
-          <Image
-            src="/images/raccoon-full.png"
-            alt="TrashPanda"
-            fill
-            className={`object-cover object-right transition-transform duration-10000 ease-in-out ${mounted ? "scale-105" : "scale-100"}`}
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
-        </div>
-
-        {/* Mobile image (only visible below md) */}
-        <div className="relative w-full h-48 md:hidden overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-transparent z-10 opacity-60"></div>
-          <Image
-            src="/images/raccoon-full.png"
-            alt="TrashPanda"
-            fill
-            className={`object-cover object-right transition-transform duration-10000 ease-in-out ${mounted ? "scale-105" : "scale-100"}`}
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-transparent"></div>
-        </div>
-
-        {/* Right side - Content */}
-        <div className="w-full md:w-1/2 flex-1 md:h-full flex flex-col justify-center p-8 pt-12 md:p-16 relative">
-          <div className="absolute top-8 right-8">
-            <div className="group relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-red-800 to-red-900 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
-              <Image
-                src="/images/raccoon-logo.png"
-                alt="TrashPanda Logo"
-                width={40}
-                height={40}
-                className="rounded-full relative transform group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          </div>
-
-          <div className="relative">
-            <h1
-              className={`text-5xl md:text-7xl font-bold tracking-tighter mb-6 ${mounted ? "animate-in fade-in slide-in-from-left-4 duration-1000" : "opacity-0"}`}
-            >
-              <span className="text-red-800">trash</span>
-              <span className="text-white">panda</span>
-            </h1>
-
-            <p
-              className={`text-lg md:text-xl text-gray-400 mb-12 ${mounted ? "animate-in fade-in slide-in-from-left-4 duration-1000 delay-300" : "opacity-0"}`}
-            >
-              committing crimes against large language models since 2025
-            </p>
-          </div>
-
-          <div
-            className={`flex flex-col space-y-4 ${mounted ? "animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500" : "opacity-0"}`}
-          >
-            <Link
-              href="https://huggingface.co/trashpanda-org"
-              target="_blank"
-              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
-            >
-              <span className="mr-2">Huggingface</span>
-              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-
-            <Link
-              href="https://github.com/trashpanda-org"
-              target="_blank"
-              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
-            >
-              <span className="mr-2">GitHub</span>
-              <Github className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-
-            <Link
-              href="https://models.trashpanda.land"
-              target="_blank"
-              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
-            >
-              <span className="mr-2">Active Model Hosts</span>
-              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-
-            <Link
-              href="https://sucker.trashpanda.land"
-              target="_blank"
-              className="group inline-flex items-center text-xl text-red-700 hover:text-red-500 transition-colors w-fit"
-            >
-              <span className="mr-2">Sucker</span>
-              <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-
-          {/* Team Members */}
-          <div
-            className={`mt-12 pt-6 border-t border-gray-900 ${mounted ? "animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-700" : "opacity-0"}`}
-          >
-            <h2 className="text-sm uppercase tracking-wider text-gray-600 mb-4">USUAL SUSPECTS</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-1 group">
-                <div className="flex items-center">
-                  <Link
-                    href="https://severian.dev"
-                    target="_blank"
-                    className="text-lg font-medium hover:text-red-700 transition-colors"
-                  >
-                    Severian
-                  </Link>
-                  <Link
-                    href="https://huggingface.co/finis-est"
-                    target="_blank"
-                    className="ml-2 text-gray-400 hover:text-red-700 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4 transform group-hover:rotate-12 transition-transform" />
-                  </Link>
-                </div>
-                <div className="text-xs text-gray-500">@lyseverian</div>
-              </div>
-              <div className="space-y-1 group">
-                <div className="flex items-center">
-                  <span className="text-lg font-medium">Hasnonname</span>
-                  <Link
-                    href="https://huggingface.co/Hasnonname"
-                    target="_blank"
-                    className="ml-2 text-gray-400 hover:text-red-700 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4 transform group-hover:rotate-12 transition-transform" />
-                  </Link>
-                </div>
-                <div className="text-xs text-gray-500">@hasnonname</div>
-              </div>
-              <div className="space-y-1 group">
-                <div className="flex items-center">
-                  <span className="text-lg font-medium">Myscell</span>
-                  <Link
-                    href="https://huggingface.co/myscellus"
-                    target="_blank"
-                    className="ml-2 text-gray-400 hover:text-red-700 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4 transform group-hover:rotate-12 transition-transform" />
-                  </Link>
-                </div>
-                <div className="text-xs text-gray-500">@myscellus</div>
-              </div>
-              <div className="space-y-1 group">
-                <div className="flex items-center">
-                  <span className="text-lg font-medium">BBQ</span>
-                  <Link
-                    href="https://huggingface.co/0mggg"
-                    target="_blank"
-                    className="ml-2 text-gray-400 hover:text-red-700 transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4 transform group-hover:rotate-12 transition-transform" />
-                  </Link>
-                </div>
-                <div className="text-xs text-gray-500">@0mggg</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-auto pt-8 pb-4 text-sm text-gray-600">© {new Date().getFullYear()} trashpanda-org</div>
-        </div>
-      </main>
-    </div>
+    <svg className="pen" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
+      <path pathLength={1} d={strokes[n]} />
+    </svg>
   )
 }
 
+// The height chart, in inches: a rule every inch, heavier at 30 and 24, the odd inches labelled from 820 px up only.
+const inches = [31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20]
+const ruleClass = (k: number) => (k === 30 || k === 24 ? "m" : k % 2 ? "o" : undefined)
+
+const ext = { target: "_blank", rel: "noopener" }
+
+const hosts = [
+  { href: "https://huggingface.co/trashpanda-org", own: "huggingface.co", shared: "/trashpanda-org" },
+  { href: "https://github.com/trashpanda-org", own: "github.com", shared: "/trashpanda-org" },
+  { href: "https://models.trashpanda.land", own: "models", shared: ".trashpanda.land" },
+  { href: "https://sucker.trashpanda.land", own: "sucker", shared: ".trashpanda.land" },
+]
+
+const associates = [
+  { href: "https://huggingface.co/finis-est", name: "severian" },
+  { href: "https://huggingface.co/Hasnonname", name: "hasnonname" },
+  { href: "https://huggingface.co/myscellus", name: "myscell" },
+  { href: "https://huggingface.co/0mggg", name: "bbq" },
+]
+
+export default function Home() {
+  return (
+    <main className="page">
+      <section className="mug" aria-label="Booking photo">
+        <div className="plate">
+          <img
+            className="shot"
+            src="/assets/mugshot-960.webp"
+            srcSet="/assets/mugshot-640.webp 640w, /assets/mugshot-960.webp 960w, /assets/mugshot-1200.webp 1200w"
+            sizes="(max-width: 819px) 100vw, max(38vw, 100vh)"
+            width={1200}
+            height={1200}
+            fetchPriority="high"
+            decoding="async"
+            alt="The trashpanda raccoon, red-furred and red-eyed, glaring into the camera from the rim of a bin"
+          />
+          <img className="shot bleach" src="/assets/mugshot-bleach-640.webp" width={640} height={640} alt="" decoding="async" />
+          <div className="flash" aria-hidden="true"></div>
+          <div className="chart" aria-hidden="true">
+            {inches.map((k) => (
+              <i key={k} className={ruleClass(k)} style={{ "--k": k } as React.CSSProperties}>
+                <b>{k} in</b>
+              </i>
+            ))}
+          </div>
+        </div>
+        <div className="gutter" aria-hidden="true"></div>
+      </section>
+
+      <div className="col">
+        <section className="sheet" aria-label="Charge sheet">
+          <p className="formhead">charge sheet</p>
+          <div className="form">
+            <div className="box b-subj">
+              <span className="lbl">subject</span>
+              <h1 className="wm"><span className="t">trash</span>panda</h1>
+            </div>
+            <div className="box b-chg">
+              <span className="lbl">charge</span>
+              <p className="charge">committing crimes against large language models since 2025</p>
+            </div>
+            <div className="box b-addr">
+              <span className="lbl" id="addr-l">addresses</span>
+              <ul className="addr" id="addr" aria-labelledby="addr-l">
+                {hosts.map((h, i) => (
+                  <li key={h.href}>
+                    <a href={h.href} {...ext}>
+                      <span className="host"><b>{h.own}</b>{h.shared}<Pen n={i % 3} /></span>
+                    </a>
+                  </li>
+                ))}
+                <li className="sealed">
+                  <a href="https://avaritia.trashpanda.land" {...ext} aria-label="avaritia.trashpanda.land, locked">
+                    <span className="host">
+                      <b>avaritia</b>.trashpanda.land
+                      <svg className="lock" viewBox="0 0 16 18" width="14" height="16" aria-hidden="true">
+                        <path d="M4 8V5.5a4 4 0 0 1 8 0V8" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                        <rect x="1.5" y="8" width="13" height="9" rx="1" fill="currentColor" />
+                        <rect x="7.2" y="11" width="1.6" height="3.2" fill="#070606" />
+                      </svg>
+                      <Pen n={1} />
+                    </span>
+                  </a>
+                  <span className="stamp">sealed</span><span className="note">members only.</span>
+                </li>
+              </ul>
+            </div>
+            <div className="box b-assoc">
+              <span className="lbl" id="assoc-l">associates</span>
+              <ul className="assoc" aria-labelledby="assoc-l">
+                {associates.map((m, i) => (
+                  <li key={m.href}>
+                    <a className="an" href={m.href} {...ext}><span className="nm">{m.name}<Pen n={i % 3} /></span></a>
+                    {m.name === "severian" && <a className="site" href="https://severian.dev" {...ext}>severian.dev</a>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+        {/* one text node, so the font swap does not shift the name past the year */}
+        <footer className="foot">{`© ${new Date().getFullYear()} trashpanda-org`}</footer>
+      </div>
+      <Booking />
+    </main>
+  )
+}
