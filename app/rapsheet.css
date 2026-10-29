@@ -89,9 +89,13 @@ ul{list-style:none;margin:0;padding:0}
           mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.2 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='160' height='60' filter='url(%23n)'/%3E%3C/svg%3E")}
 .stamp::after{content:"";position:absolute;inset:-2px;border:2px solid currentColor;border-radius:4px;opacity:.16;filter:blur(1.4px)}
 
-/* associates: the four names in equal columns, each a link to the member's Hugging Face */
-.assoc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(6 * var(--k)) calc(24 * var(--k))}
-.an{display:inline-block;padding:2px 0;font:700 calc(20 * var(--k))/1.4 var(--type);text-decoration:none}
+/* associates: the four names, each a link to the member's Hugging Face, in equal columns: four when every column leaves 28 px
+   clear after the longest name (hasnonname, about 6.2em), two by two otherwise. The box's font size is the names' size, so the
+   query's em is theirs. */
+.b-assoc{container-type:inline-size;font-size:calc(20 * var(--k))}
+.assoc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(6 * var(--k)) .875em}
+@container (min-width:calc(4 * (6.2em + 28px) + 3 * 1.2em)){.assoc{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:1.2em}}
+.an{display:inline-block;padding:2px 0;font:700 1em/1.4 var(--type);text-decoration:none}
 .nm{position:relative;text-decoration:underline;text-decoration-color:var(--rule2);text-decoration-thickness:1px}
 .an:hover .nm,.an:focus-visible .nm{text-decoration-color:var(--ink)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:0 16px;margin:0 var(--gut) 0 calc(48 * var(--k));padding:calc(11 * var(--k)) 0 calc(34 * var(--k));border-top:3px double var(--rule2);font:600 calc(11 * var(--k))/1 var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
@@ -115,16 +119,12 @@ ul{list-style:none;margin:0;padding:0}
   .b-addr{padding-bottom:18px}
 }
 
-/* narrow desktops: the wordmark and the hosts sized to the column so neither overflows, the associates closer (two by two under
-   1000 px, where four columns no longer hold the longest name); under 1080 px avaritia takes the phone's slot (below) */
+/* narrow desktops: the wordmark and the hosts sized to the column so neither overflows, the associates smaller; under 1080 px
+   avaritia takes the phone's slot (below) */
 @media (min-width:820px) and (max-width:1180px){
   .wm{font-size:min(clamp(72px,min(7.6vw,12vh),118px),calc((100vw - 482px) / 5.3))}
   .addr a{font-size:min(calc(24 * var(--k)),calc(3.5vw - 8.5px),calc((100vw - 482px) / 17.6))}
-  .assoc{column-gap:12px}
-  .an{font-size:18px}
-}
-@media (min-width:820px) and (max-width:999px){
-  .assoc{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .b-assoc{font-size:18px}
 }
 /* under 1080 px the stamp no longer fits beside the host at every width, so it takes one slot everywhere: the small stamp struck
    across avaritia's rule, just under the lock. Where the row is too short for that, the link's box gives way (the host does not
@@ -153,11 +153,12 @@ ul{list-style:none;margin:0;padding:0}
   .box,.b-assoc{border:1px solid var(--rule2);padding:12px 14px 15px}
   .b-addr{padding-bottom:24px}
   .box .lbl{margin-bottom:9px}
-  .wm{font-size:58px;padding:0 0 2px}
+  /* the wordmark and the hosts shrink with screens under about 360 px, so neither runs past the box */
+  .wm{font-size:min(58px,calc((100vw - 62px) / 5.2));padding:0 0 2px}
   .charge{font-size:16px;line-height:1.45}
   .addr{padding-bottom:0}
-  .addr a{font-size:16px}
-  .assoc{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
-  .an{font-size:16px}
+  .addr a{font-size:min(16px,calc((100vw - 62px) / 18.2))}
+  .b-assoc{font-size:16px}
+  .assoc{row-gap:6px}
   .foot{margin:24px var(--gut) 0;padding:11px 0 30px}
 }
