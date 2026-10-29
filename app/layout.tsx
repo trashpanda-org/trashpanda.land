@@ -1,16 +1,31 @@
 import type React from "react";
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+const tagline = "committing crimes against large language models since 2025";
 
 export const metadata: Metadata = {
-  title: "trashpanda-org",
-  description: "committing crimes against large language models since 2025",
+  metadataBase: new URL("https://trashpanda.land"),
+  title: "trashpanda",
+  description: tagline,
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "trashpanda",
+    description: tagline,
+    images: [
+      {
+        url: "/og.jpg",
+        type: "image/jpeg",
+        width: 1200,
+        height: 630,
+        alt: "A wanted poster for the trashpanda raccoon",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    description: tagline,
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -27,14 +42,30 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#070606",
+  colorScheme: "dark",
+};
+
+// The mugshot's preload (imagesrcset, imagesizes, fetchpriority high) is emitted by React from the page's <img>.
+// Before first paint: html.js, and html.booking unless the visitor asks for reduced motion (the booking motion only runs under it).
+const prePaint =
+  "(()=>{const h=document.documentElement;h.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('booking')})()";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="antialiased">{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var.woff2" crossOrigin="" />
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/courier-prime-400.woff2" crossOrigin="" />
+        <link rel="preload" as="font" type="font/woff2" href="/fonts/courier-prime-700.woff2" crossOrigin="" />
+        <script dangerouslySetInnerHTML={{ __html: prePaint }} />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

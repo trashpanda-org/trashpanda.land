@@ -1,0 +1,174 @@
+/* trashpanda.land, the Rap Sheet. The raccoon is booked: its places are its addresses, its members its associates.
+   Names, form labels, the tagline, the stamp and avaritia's one line; nothing explains itself. Red is for the wordmark, the stamp
+   and the clerk's pencil. From 820 px up it is one screen, as on the live site: the booking photo fills the left column, the sheet
+   and the footer the right; on a screen too short for them the page scrolls past the pinned photo. Everything readable is there
+   at rest; the load motion only runs under html.booking. */
+
+/* self-hosted faces (latin subsets), with fallbacks sized so the swap does not move the page */
+@font-face{font-family:'Inter';src:url(/fonts/inter-var.woff2) format('woff2');font-weight:600 800;font-style:normal;font-display:swap}
+@font-face{font-family:'Courier Prime';src:url(/fonts/courier-prime-400.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Courier Prime';src:url(/fonts/courier-prime-700.woff2) format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Inter Fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('Nimbus Sans Bold'),local('Arial');font-weight:600 800;size-adjust:103%;ascent-override:94.06%;descent-override:23.42%;line-gap-override:0%}
+@font-face{font-family:'Courier Fallback';src:local('Courier New'),local('CourierNewPSMT'),local('Liberation Mono'),local('Nimbus Mono PS');size-adjust:99.9%;ascent-override:78.2%;descent-override:34.2%;line-gap-override:0%}
+
+:root{
+  --bg:#070606;--wall:#0d0c0c;--ink:#ece6df;--soft:#9a918a;--rule:#2b2523;--rule2:#3d3532;
+  --red:#991b1b;--stamp:#ea4448;
+  --type:'Courier Prime','Courier Fallback',ui-monospace,monospace;--label:'Inter','Inter Fallback',system-ui,sans-serif;--mark:'Inter','Inter Fallback',system-ui,sans-serif;
+  /* --k is one design pixel: 1px up to 900 px of height, then the sheet grows with the screen (to 1.5x at 1350), so a tall
+     screen reads as the 1440x900 sheet enlarged rather than a stretched box. Only set from 820 px up. */
+  --k:1px;--gut:calc(56 * var(--k));--row:clamp(40px,5.6vh,calc(52 * var(--k)));
+}
+@media (min-width:820px){:root{--k:clamp(1px,100vh / 900,1.5px)}}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);font:400 16px/1.45 var(--type);overflow-x:hidden}
+a{color:inherit;text-underline-offset:4px;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+p,h1{margin:0}
+ul{list-style:none;margin:0;padding:0}
+.lbl{display:flex;gap:7px;align-items:baseline;font:600 calc(11 * var(--k))/1 var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+
+/* ---------- the page: the booking photo on the left, the sheet and the footer on the right ---------- */
+.page{display:grid;grid-template-columns:minmax(340px,38%) minmax(0,1fr);align-items:start}
+
+/* mugshot: the photo and its height chart share one square plate, sized and placed the way object-fit:cover would place the photo,
+   so a point on the face reads the same on the chart at every size. A raccoon reads in inches: ear tips at 30 in, chin at 23 in
+   (picked from the painting: ear tip y 112, chin y 815 of 1200, so an inch is 703/7 px of the 1200 px picture). The labels sit in a dark
+   gutter over the plate's left edge. Pure CSS: container units on .mug, no script. */
+.mug{--gutter:40px;--px:.66;--py:.3;position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;container-type:size;isolation:isolate;background:#1a1016;border-right:1px solid var(--rule)}
+.plate{--S:max(100cqw - var(--gutter), 100cqh);--pl:calc(var(--gutter) + (100cqw - var(--gutter) - var(--S)) * var(--px));position:absolute;left:var(--pl);top:calc((100cqh - var(--S)) * var(--py));width:var(--S);height:var(--S)}
+.shot{position:absolute;inset:0;width:100%;height:100%}
+.bleach{opacity:0}
+.gutter{position:absolute;z-index:1;left:0;top:0;bottom:0;width:var(--gutter);background:var(--bg)}
+.chart{--e:.0933;--in:.08369;position:absolute;z-index:2;inset:0;pointer-events:none}
+.chart i{position:absolute;left:calc(-1 * var(--pl));right:-100vw;top:calc((var(--e) + (30 - var(--k)) * var(--in)) * 100%);height:1px;background:rgba(255,255,255,.2)}
+.chart i.m{height:2px;background:rgba(255,255,255,.34)}
+.chart b{position:absolute;left:7px;top:4px;font:700 11px/1 var(--label);letter-spacing:.02em;color:var(--soft);white-space:nowrap}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(120% 90% at 34% 18%,#fff 0,rgba(255,250,245,.92) 40%,rgba(255,245,240,.55) 100%)}
+
+/* the right column is exactly one screen: the sheet, then the footer. The addresses keep one blank ruled line for the next place,
+   the subject box takes the rest. The footer's double rule closes the form, as the head's opens it. */
+.col{min-width:0;display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+.sheet{flex:1;display:flex;flex-direction:column;padding:calc(34 * var(--k)) var(--gut) 0 calc(48 * var(--k))}
+.formhead{font:600 calc(12 * var(--k))/1 var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--soft);padding-bottom:calc(11 * var(--k));border-bottom:3px double var(--rule2)}
+.form{flex:1;display:flex;flex-direction:column;border-left:1px solid var(--rule2)}
+.box{position:relative;border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);padding:calc(12 * var(--k)) calc(18 * var(--k)) calc(15 * var(--k));min-width:0}
+.box .lbl{margin-bottom:calc(10 * var(--k))}
+.b-subj{flex:1;display:flex;flex-direction:column}
+.wm{margin-block:auto;font:800 clamp(72px,7.6vw,calc(118 * var(--k)))/.84 var(--mark);letter-spacing:-.055em;color:#fff;padding:2px 0 4px}
+.wm .t{color:var(--red)}
+.charge{font-size:calc(25 * var(--k));line-height:1.32;max-width:40ch;text-wrap:balance}
+
+/* addresses: hosts typed on the form's ruled lines, each row one link; avaritia always last, in fixed slots */
+.addr{padding-bottom:var(--row);background:repeating-linear-gradient(to bottom,transparent 0 calc(var(--row) - 1px),var(--rule) calc(var(--row) - 1px) var(--row))}
+/* the blank line is for the next place: a sixth place takes it */
+.addr:has(>li:nth-child(6)){padding-bottom:0}
+.addr li{line-height:var(--row);min-width:0}
+.addr a{display:block;font-size:calc(24 * var(--k));text-decoration:none}
+.addr a:focus-visible{outline-offset:-2px}
+.host{position:relative;color:var(--soft);text-decoration:underline;text-decoration-color:var(--rule2);text-decoration-thickness:1px;overflow-wrap:anywhere}
+.host b{font-weight:400;color:var(--ink)}
+.lock{margin-left:9px;vertical-align:-1px;color:var(--ink)}
+/* the clerk's red pencil: drawn under a host or an associate on hover and keyboard focus (220 ms), gone at once when the pointer leaves */
+.pen{position:absolute;left:-2px;bottom:-.42em;width:calc(100% + 5px);height:7px;overflow:visible;pointer-events:none;clip-path:inset(-4px calc(100% + 4px) -4px -4px)}
+.pen path{fill:none;stroke:var(--stamp);stroke-width:1.7;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.92}
+.addr a:hover .pen,.addr a:focus-visible .pen,.an:hover .pen,.an:focus-visible .pen{clip-path:inset(-4px -4px -4px -4px);transition:clip-path .22s cubic-bezier(.4,.1,.3,1)}
+.addr .sealed{position:relative;display:grid;grid-template-columns:max-content max-content minmax(0,1fr);grid-template-areas:"host stamp ." "note note note";align-items:center;column-gap:calc(22 * var(--k))}
+/* avaritia's link covers its whole first row, like the others; the stamp sits over it and lets the pointer through */
+.sealed>a{grid-area:host}
+.sealed>a::after{content:"";position:absolute;top:0;left:0;right:0;height:var(--row)}
+.sealed>a:focus-visible{outline:none}
+.sealed>a:focus-visible::after{outline:2px solid var(--ink);outline-offset:-2px}
+/* the stamp is struck across the row's rule, 8 px over it, never tangent to a line */
+.sealed .stamp{grid-area:stamp;justify-self:start;z-index:1;pointer-events:none;top:calc(var(--row) / 2 - 12 * var(--k))}
+.sealed .note{grid-area:note;font-size:calc(15 * var(--k));color:var(--soft)}
+
+/* the stamp: rubber, inked, a little uneven */
+.stamp{position:relative;display:inline-block;padding:calc(4 * var(--k)) calc(10 * var(--k)) calc(3 * var(--k));border:2.5px solid currentColor;border-radius:3px;color:var(--stamp);
+  box-shadow:inset 0 0 0 2px var(--bg),inset 0 0 0 3.5px currentColor;
+  font:800 calc(16 * var(--k))/1 var(--label);letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;transform:rotate(-7deg);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.2 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='160' height='60' filter='url(%23n)'/%3E%3C/svg%3E");
+          mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.2 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='160' height='60' filter='url(%23n)'/%3E%3C/svg%3E")}
+.stamp::after{content:"";position:absolute;inset:-2px;border:2px solid currentColor;border-radius:4px;opacity:.16;filter:blur(1.4px)}
+
+/* associates: the four names, each a link to the member's Hugging Face; severian.dev a quieter second link beside Severian */
+.assoc{display:flex;justify-content:space-between;flex-wrap:wrap;gap:calc(6 * var(--k)) calc(24 * var(--k))}
+.assoc li{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:calc(12 * var(--k))}
+.an{display:inline-block;padding:2px 0;font:700 calc(20 * var(--k))/1.4 var(--type);text-decoration:none}
+.nm{position:relative;text-decoration:underline;text-decoration-color:var(--rule2);text-decoration-thickness:1px}
+.an:hover .nm,.an:focus-visible .nm{text-decoration-color:var(--ink)}
+.site{display:inline-block;padding:calc(5 * var(--k)) 1px;font:400 calc(14 * var(--k))/calc(16 * var(--k)) var(--type);color:var(--soft);text-decoration:underline;text-decoration-color:var(--rule2);text-underline-offset:3px}
+.site:hover,.site:focus-visible{text-decoration-color:var(--ink)}
+
+.foot{margin:0 var(--gut) 0 calc(48 * var(--k));padding:calc(11 * var(--k)) 0 calc(34 * var(--k));border-top:3px double var(--rule2);font:600 calc(11 * var(--k))/1 var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.b-assoc{border-bottom:0}
+
+/* ---------- motion (reduced motion never gets html.booking) ---------- */
+/* html.go arrives when both photos have loaded (booking.tsx), so the flash lands on the photo. The photo develops by opacity:
+   a pre-bleached copy fades off it; nothing animates filter. Every step starts from the rest state. */
+.booking.go .flash{animation:flash .56s .12s cubic-bezier(.05,.7,.3,1) both}
+.booking.go .bleach{animation:develop 1.5s .14s ease-out}
+.booking.go .sealed .stamp{animation:stamp .18s .9s cubic-bezier(.05,.9,.2,1)}
+.booking.go .sealed .stamp::after{animation:spread .5s 1.06s ease-out}
+.booking.go .sealed{animation:thud .16s 1.07s ease-out}
+@keyframes flash{0%{opacity:0}5%{opacity:.94}100%{opacity:0}}
+@keyframes develop{0%{opacity:1}100%{opacity:0}}
+@keyframes stamp{0%{transform:rotate(-19deg) scale(1.75)}100%{transform:rotate(-7deg) scale(1)}}
+@keyframes spread{0%{transform:scale(.97);opacity:.75}100%{transform:scale(1);opacity:.16}}
+@keyframes thud{0%{translate:0 1.5px}100%{translate:0 0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* short laptop screens: no blank line, a tighter head and foot, and a wordmark sized by the height too, so the sheet and the
+   footer still fit the one screen */
+@media (min-width:820px) and (max-height:800px){
+  .addr{padding-bottom:0}
+  .sheet{padding-top:22px}
+  .foot{padding:10px 0 16px}
+  .wm{font-size:clamp(72px,min(7.6vw,12vh),118px)}
+}
+
+/* narrow desktops: the wordmark and the hosts sized to the column so neither overflows, the associates closer; under 1080 px avaritia takes the phone's
+   slots (the host on its row, the stamp beside the note), as the stamp no longer fits beside the host */
+@media (min-width:820px) and (max-width:1180px){
+  .wm{font-size:min(clamp(72px,min(7.6vw,12vh),118px),calc((100vw - 482px) / 5.3))}
+  .addr a{font-size:min(calc(24 * var(--k)),calc(3.5vw - 8.5px),calc((100vw - 482px) / 17.6))}
+  .assoc{column-gap:16px}
+  .an{font-size:18px}
+}
+@media (min-width:820px) and (max-width:1079px){
+  .addr .sealed{grid-template-columns:max-content minmax(0,1fr);grid-template-areas:"host host" "stamp note";column-gap:14px}
+  .stamp{font-size:11px;letter-spacing:.2em;padding:3px 6px 2px;margin-left:2px}
+  .sealed .stamp{top:calc(var(--row) / 2 - 6px)}
+  .b-addr{padding-bottom:19px}
+}
+
+/* ---------- phone: the photo strip, the sheet, the footer ---------- */
+@media (max-width:819px){
+  :root{--gut:16px;--row:36px}
+  .page{display:block}
+  /* the whole head in the strip, ear tips to chin; labels every 2 in */
+  .mug{--gutter:36px;--px:.5;--py:.25;position:relative;height:236px;border-right:0;border-bottom:1px solid var(--rule)}
+  .chart .o b{display:none}
+  .chart b{left:5px}
+  .col{min-height:0}
+  .sheet{padding:24px var(--gut) 0}
+  .formhead{font-size:11px;letter-spacing:.2em;padding-bottom:9px}
+  .form{gap:10px;border-left:0;padding-top:12px}
+  .box,.b-assoc{border:1px solid var(--rule2);padding:12px 14px 15px}
+  .b-addr{padding-bottom:18px}
+  .box .lbl{margin-bottom:9px}
+  .wm{font-size:58px;padding:0 0 2px}
+  .charge{font-size:16px;line-height:1.45}
+  .addr{padding-bottom:0}
+  .addr a{font-size:16px}
+  .addr .sealed{grid-template-columns:max-content minmax(0,1fr);grid-template-areas:"host host" "stamp note";column-gap:12px}
+  .stamp{font-size:11px;letter-spacing:.2em;padding:3px 6px 2px;margin-left:2px}
+  .sealed .stamp{top:calc(var(--row) / 2 - 6px)}
+  .sealed .note{font-size:12px;white-space:nowrap}
+  .assoc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+  .assoc li{column-gap:10px}
+  .an{font-size:16px}
+  .site{font-size:13px}
+  .foot{margin:24px var(--gut) 0;padding:11px 0 30px}
+}
