@@ -16,6 +16,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Fonts and photos are cached for a year so a reload paints with them instead of
+  // asking the server first. Rename a file when it changes.
+  async headers() {
+    return ['/fonts/:path*', '/assets/:path*'].map((source) => ({
+      source,
+      headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+    }))
+  },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
